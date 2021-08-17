@@ -13,8 +13,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-os.system('modprobe w1-gpio')
-os.system('modprobe w1-therm')
 
 
 openweather_api_url = "http://api.openweathermap.org/data/2.5/weather"
@@ -58,7 +56,7 @@ def get_ds18b20_temps():
 
 
 def read_ds18b20_raw(device_file):
-    with open(device_file, "f") as f:
+    with open(device_file, "r") as f:
         lines = f.readlines()
 
     return lines
