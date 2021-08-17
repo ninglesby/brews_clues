@@ -50,7 +50,7 @@ def get_ds18b20_temps():
             device_file = device_folder + "/w1_slave"
             temp = read_ds18b20(device_file)
             if temp:
-                readings.append(read_ds18b20(device_file))
+                readings.append(temp)
     else:
         raise FileNotFoundError("Temperature Probes not Active!")
 

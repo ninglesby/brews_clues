@@ -48,6 +48,7 @@ services:
       - LOGGER_NAME=${LOGGER_NAME}
     depends_on: 
       - influxdb
+    privileged: true
   nginx:
     build:
       context: .
