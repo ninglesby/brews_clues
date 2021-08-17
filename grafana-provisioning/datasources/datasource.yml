@@ -1,0 +1,17 @@
+apiVersion: 1
+
+datasources:
+  - name: InfluxDB
+    type: influxdb
+    query_language: "Flux"
+    access: proxy
+    url: $INFLUXDB_URL
+    secureJsonData:
+      token: $INFLUXDB_TOKEN
+    jsonData:
+      version: Flux
+      organization: $INFLUXDB_ORG
+      defaultBucket: $INFLUXDB_BUCKET
+      tlsSkipVerify: true
+    isDefault: true
+    editable: true
