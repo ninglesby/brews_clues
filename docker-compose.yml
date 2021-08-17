@@ -34,6 +34,8 @@ services:
   monitor:
     build:
       context: .
+    volumes: 
+      - /sys:/sys
     environment: 
       - OPEN_WEATHER_API_KEY=${OPEN_WEATHER_API_KEY}
       - OPEN_WEATHER_ZIP_CODE=${OPEN_WEATHER_ZIP_CODE}
@@ -43,8 +45,17 @@ services:
       - INFLUXDB_BUCKET=${INFLUXDB_BUCKET}
       - INFLUXDB_TOKEN=${INFLUXDB_TOKEN}
       - INFLUXDB_URL=${INFLUXDB_URL}
+      - LOGGER_NAME=${LOGGER_NAME}
     depends_on: 
       - influxdb
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile-nginx
+    ports:
+      - '80:80'
+    depends_on: 
+      - grafana
 volumes: 
   influxdb-storage:
   grafana-storage:

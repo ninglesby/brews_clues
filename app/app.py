@@ -4,7 +4,6 @@ from datetime import datetime
 import os
 import glob
 import time
-from socket import gethostname
 from influxdb_client import InfluxDBClient, Point, WritePrecision
 from influxdb_client.client.write_api import SYNCHRONOUS
 
@@ -13,6 +12,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
+os.system('modprobe w1-gpio')
+os.system('modprobe w1-therm')
 
 
 openweather_api_url = "http://api.openweathermap.org/data/2.5/weather"
@@ -92,7 +94,7 @@ def write_data_to_influx():
     weather = get_weather()
 
     point = Point("weather")\
-        .tag("host", gethostname())\
+        .tag("host", os.getenv("LOGGER_NAME", "pi-logger"))\
         .field("temperature", weather["main"]["temp"])\
         .field("humidity", weather["main"]["humidity"])\
         .field("feels_like", weather["main"]["feels_like"])\
@@ -105,7 +107,7 @@ def write_data_to_influx():
     for reading in get_ds18b20_temps():
         for key, value in reading.items():
             point = Point("temp_probe")\
-                .tag("host", gethostname())\
+                .tag("host", os.getenv("LOGGER_NAME", "pi-logger"))\
                 .tag("probe_addr", key)\
                 .field("temp_c", value["temp_c"])\
                 .field("temp_f", value["temp_f"])
