@@ -17,7 +17,7 @@ load_dotenv()
 
 openweather_api_url = "http://api.openweathermap.org/data/2.5/weather"
 
-openweather_api_key = os.environ["OPEN_WEATHER_API_KEY"]
+openweather_api_key = os.getenv("OPEN_WEATHER_API_KEY")
 
 openweather_api_zip = os.environ["OPEN_WEATHER_ZIP_CODE"]
 
@@ -30,6 +30,7 @@ influxdb_org = os.environ["INFLUXDB_ORG"]
 influxdb_bucket = os.environ["INFLUXDB_BUCKET"]
 
 def get_weather():
+
     params = {
         "appid":openweather_api_key,
         "zip":openweather_api_zip,
@@ -83,12 +84,7 @@ def read_ds18b20(device_file):
     return None
 
 
-
-def write_data_to_influx():
-
-
-    client = InfluxDBClient(url=influxdb_url, token=influxdb_token)
-    write_api = client.write_api(write_options=SYNCHRONOUS)
+def write_weather_to_influx(write_api):
     weather = get_weather()
 
     point = Point("weather")\
@@ -102,6 +98,7 @@ def write_data_to_influx():
 
     write_api.write(influxdb_bucket, influxdb_org, point)
 
+def write_temp_probes_to_influx(write_api):
     for reading in get_ds18b20_temps():
         for key, value in reading.items():
             point = Point("temp_probe")\
@@ -112,14 +109,26 @@ def write_data_to_influx():
 
             write_api.write(influxdb_bucket, influxdb_org, point)
 
+def write_data_to_influx():
 
 
-while True:
-    try:
-        write_data_to_influx()
-    except KeyboardInterrupt:
-        break
-    except Exception as e:
-        print(e)
+    client = InfluxDBClient(url=influxdb_url, token=influxdb_token)
+    write_api = client.write_api(write_options=SYNCHRONOUS)
 
-    time.sleep(30)
+    if openweather_api_key != None:
+        write_weather_to_influx(write_api)
+
+    write_temp_probes_to_influx(write_api)
+
+
+if __name__ == '__main__':
+
+    while True:
+        try:
+            write_data_to_influx()
+        except KeyboardInterrupt:
+            break
+        except Exception as e:
+            print(e)
+
+        time.sleep(30)

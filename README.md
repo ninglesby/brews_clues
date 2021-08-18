@@ -23,6 +23,8 @@ My partner and I were taking our first foray into home brewing. She was doing mo
 
 ### get open weather account
 
+I was curious to see how much the outside temperature would affect the ambient room temperature and since it wasn't too much more effort I added some other values as well. This is not required, if the `OPEN_WEATHER_API_KEY` is omitted this step is just skipped.
+
 - I am using the [OpenWeather api](https://openweathermap.org/api) to pull in weather data
 - You can setup an a free account and get a million calls per month which is plenty for this project.
 - Once you have an account you can get an API key, you'll need that later.
