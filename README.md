@@ -60,7 +60,7 @@ I was curious to see how much the outside temperature would affect the ambient r
   - for the rest of entries you can entire whatever you'd like, try to make the passwords secure and all that.
   - the only thing that needs to stay the same as the example file is the `INFLUXDB_URL`
 
-That should be it, start the process with `sudo systemctl start docker-compose@brews_clues.service`
+That should be it, start the process with `sudo systemctl start docker-compose@brews_clues.service` and you can enter the ip address of the raspberry pi into the browser and it should point you at the grafana home page.
 ![image](https://user-images.githubusercontent.com/29129252/129919189-0d3bd94d-b423-4873-95e8-385d1205cc20.png)
 
 *This guide is a work in progress, I am just writing this down from memory I haven't gone through it yet to make sure everything works as written.
