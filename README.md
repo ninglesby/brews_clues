@@ -59,5 +59,6 @@ My partner and I were taking our first foray into home brewing. She was doing mo
   - the only thing that needs to stay the same as the example file is the `INFLUXDB_URL`
 
 That should be it, start the process with `sudo systemctl start docker-compose@brews_clues.service`
+![image](https://user-images.githubusercontent.com/29129252/129919189-0d3bd94d-b423-4873-95e8-385d1205cc20.png)
 
 *This guide is a work in progress, I am just writing this down from memory I haven't gone through it yet to make sure everything works as written.
