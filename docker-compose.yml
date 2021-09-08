@@ -31,24 +31,18 @@ services:
       - INFLUXDB_BUCKET=${INFLUXDB_BUCKET}
       - INFLUXDB_TOKEN=${INFLUXDB_TOKEN}
       - INFLUXDB_URL=${INFLUXDB_URL}
-  monitor:
-    build:
-      context: .
+  telegraf:
+    image: telegraf
     volumes: 
-      - /sys:/sys
+      - ./telegraf-conf/telegraf.conf/:/etc/telegraf/telegraf.conf:ro
+    depends_on: 
+      - influxdb
     environment: 
-      - OPEN_WEATHER_API_KEY=${OPEN_WEATHER_API_KEY}
-      - OPEN_WEATHER_ZIP_CODE=${OPEN_WEATHER_ZIP_CODE}
-      - INFLUXDB_USERNAME=${INFLUXDB_USERNAME}
-      - INFLUXDB_PASSWORD=${INFLUXDB_PASSWORD}
       - INFLUXDB_ORG=${INFLUXDB_ORG}
       - INFLUXDB_BUCKET=${INFLUXDB_BUCKET}
       - INFLUXDB_TOKEN=${INFLUXDB_TOKEN}
       - INFLUXDB_URL=${INFLUXDB_URL}
-      - LOGGER_NAME=${LOGGER_NAME}
-    depends_on: 
-      - influxdb
-    privileged: true
+
   nginx:
     build:
       context: .
